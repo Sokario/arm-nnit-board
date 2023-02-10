@@ -1,0 +1,8 @@
+.build
+projectfiles
+*.py*
+
+mbed_config.h
+BUILD
+.vscode
+# Do NOT ignore files below
