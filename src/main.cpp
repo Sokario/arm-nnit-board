@@ -4,6 +4,8 @@
  */
 #include "mbed.h"
 
+#include "neural_network.h"
+
 namespace {
 #define HALF_PERIOD 500ms
 }
