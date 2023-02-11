@@ -7,7 +7,7 @@
       "platform.callback-nontrivial": true,
       "platform.minimal-printf-enable-floating-point": true,
       "platform.stdio-baud-rate": 115200,
-      "platform.default-serial-baud-rate": 115200,
+      "platform.default-serial-baud-rate": 115200
     }
   }
 }
