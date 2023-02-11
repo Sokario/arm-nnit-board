@@ -1,9 +1,13 @@
 #ifndef __LAYER_H__
 #define __LAYER_H__
 
+#include "mbed.h"
+
+#include <vector>
+
 namespace sixtron
 {
-    
+
 class Layer
 {
 public:
@@ -11,7 +15,8 @@ public:
     ~Layer();
 
 private:
-    /* data */
+    // /!\ TO DO: to be added to the flash memory
+    std::vector<uint8_t> data;
 };
 
 } // namespace sixtron
