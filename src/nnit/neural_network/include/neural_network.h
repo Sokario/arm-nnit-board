@@ -4,6 +4,9 @@
 #include "mbed.h"
 #include "layer.h"
 
+#include "dense.h"
+#include "relu.h"
+
 #include <vector>
 
 namespace sixtron
@@ -15,15 +18,12 @@ public:
     NNIT();
     ~NNIT();
 
-    void add_layer(Layer layer);
-    void add_layers(std::vector<Layer> layers);
-    void remove_layer(uint8_t index);
+//    void add_layer(Layer<>* layer);
+//    void add_layers(std::vector<Layer<>*> layers);
+//    void remove_layer(uint8_t index);
 
 private:
-    std::vector<uint8_t> input;
-    std::vector<uint8_t> output;
-
-    std::vector<Layer> layers;
+//    std::vector<Layer<>*> layers;
 };
 
 } // namespace sixtron
