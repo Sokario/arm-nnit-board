@@ -1,5 +1,5 @@
-#ifndef __NEURON_H__
-#define __NEURON_H__
+#ifndef __PERCEPTRON_H__
+#define __PERCEPTRON_H__
 
 #include "computational.h"
 
@@ -13,11 +13,11 @@ using namespace std;
     typedef char assert_failed_condition [ (condition) ? 1 : -1 ];
 
 template <int INPUT>
-class Neuron: public Computational<INPUT, 1>
+class Perceptron: public Computational<INPUT, 1>
 {
 public:
-    Neuron(void) : Computational<INPUT, 1>() {}
-    ~Neuron(void) {}
+    Perceptron(void) : Computational<INPUT, 1>() {}
+    ~Perceptron(void) {}
 
     array<int8_t, 1> forward(array<int8_t, INPUT> input) {
         //STATIC_ASSERT(sizeof(*input) == sizeof(*_weight));
@@ -41,4 +41,4 @@ private:
 } // namespace sixtron
 
 
-#endif // __NEURON_H__
+#endif // __PERCEPTRON_H__
