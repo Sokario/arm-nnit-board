@@ -3,17 +3,37 @@
 
 #include "layer.h"
 
+#include <array>
+
 namespace sixtron
 {
-    
-class Computational: Layer
+using namespace std;
+
+template <int INPUT, int OUTPUT>
+class Computational: public Layer<OUTPUT>
 {
 public:
-    Computational(/* args */);
-    ~Computational();
+    Computational(void) : Layer<OUTPUT>() {}
+    ~Computational(void) {}
 
-private:
-    /* data */
+    virtual void load_weight(array<int8_t, INPUT * OUTPUT> weight) {
+        for (unsigned int i = 0; i < INPUT * OUTPUT; i++) {
+            _weight[i] = weight[i];
+        }
+    }
+
+    virtual array<int8_t, INPUT * OUTPUT> get_weight(void) { return _weight; }
+    virtual void load_bias(array<int8_t, OUTPUT> bias) {
+        for (unsigned int i = 0; i < OUTPUT; i++) {
+            _bias[i] = bias[i];
+        }
+    }
+    virtual array<int8_t, OUTPUT> get_bias(void) { return _bias; }
+
+protected:
+    // /!\ TO DO: to be added to the flash memory
+    array<int8_t, INPUT * OUTPUT> _weight;
+    array<int8_t, OUTPUT> _bias;
 };
 
 } // namespace sixtron

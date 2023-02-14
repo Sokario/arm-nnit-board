@@ -3,17 +3,21 @@
 
 #include "layer.h"
 
+#include <array>
+
 namespace sixtron
 {
-    
-class Activation: Layer
+using namespace std;
+
+template <int INPUT>
+class Activation: public Layer<INPUT>
 {
 public:
-    Activation(/* args */);
-    ~Activation();
+    Activation(void) : Layer<INPUT>() {}
+    ~Activation(void) {}
 
-private:
-    /* data */
+    virtual array<int8_t, INPUT> derivative(array<int8_t, INPUT> error) = 0;
+
 };
 
 } // namespace sixtron

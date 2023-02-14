@@ -3,20 +3,33 @@
 
 #include "mbed.h"
 
-#include <vector>
+#include <array>
 
 namespace sixtron
 {
+using namespace std;
 
+template <int OUTPUT>
 class Layer
 {
 public:
-    Layer(/* args */);
-    ~Layer();
+    Layer(void) {}
+    ~Layer(void) {}
 
-private:
-    // /!\ TO DO: to be added to the flash memory
-    std::vector<uint8_t> data;
+    // Computational
+    //virtual void load_weight(array<int8_t, OUTPUT> weight) { return; }
+    //virtual array<int8_t, OUTPUT> get_weight(void) { return {}; }
+    //virtual void load_bias(array<int8_t, OUTPUT> bias) { return; }
+    //virtual array<int8_t, OUTPUT> get_bias(void) { return {}; }
+
+    // Activation
+    virtual array<int8_t, OUTPUT> derivative(array<int8_t, OUTPUT> error) { return {}; }
+
+    // Commun
+    virtual array<int8_t, OUTPUT> forward(array<int8_t, OUTPUT> input) { return {}; }
+
+protected:
+    array<int8_t, OUTPUT> _output; // /!\ Initialize _output for warning clearance
 };
 
 } // namespace sixtron
