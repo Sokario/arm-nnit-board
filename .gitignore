@@ -2,6 +2,7 @@
 projectfiles
 *.py*
 
+.mbed
 mbed_config.h
 BUILD
 .vscode

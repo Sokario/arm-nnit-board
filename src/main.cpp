@@ -27,7 +27,7 @@ static ReLU<15> relu(0.0f);
 static std::array<int8_t, 4> N_input = {1, 2, 7, 15};
 static std::array<int8_t, 4> N_weight = {0, 1, 3, 7};
 static std::array<int8_t, 1> N_bias = {1};
-static Neuron<4> neuron;
+static Perceptron<4> perceptron;
 // DENSE
 static std::array<int8_t, 2> D_input = {1, 2};
 static std::array<int8_t, 8> D_weight = {0, 1, 2, 3, 4, 5, 6, 7};
@@ -51,9 +51,9 @@ void test_routine() {
         }
         printf("\n");
 
-        neuron.load_weight(N_weight);
-        neuron.load_bias(N_bias);
-        std::array<int8_t, 1> N_output = neuron.forward(N_input);
+        perceptron.load_weight(N_weight);
+        perceptron.load_bias(N_bias);
+        std::array<int8_t, 1> N_output = perceptron.forward(N_input);
         printf("NEURON size: [%d] | [%d]\n", N_input.size(), N_output.size());
         printf("NEURON Test: ");
         for (unsigned int i = 0; i < N_output.size(); i++) {

@@ -17,8 +17,8 @@ class Dense: public Computational<INPUT, OUTPUT>
 public:
     Dense(void) : Computational<INPUT, OUTPUT>() {
         for (uint32_t i = 0; i < OUTPUT; i++) {
-            Perceptrons<INPUT> perceptron;
-            _perceptrons.push_back(perceptrons);
+            Perceptron<INPUT> perceptron;
+            _perceptrons.push_back(perceptron);
         }
     }
     ~Dense(void) {}
@@ -67,7 +67,7 @@ public:
     }
 
 private:
-    std::vector<Neuron<INPUT>> _perceptrons;
+    std::vector<Perceptron<INPUT>> _perceptrons;
 };
 
 } // namespace sixtron
