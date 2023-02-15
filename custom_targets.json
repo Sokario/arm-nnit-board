@@ -12,5 +12,19 @@
             "network-default-interface-type": "ETHERNET"
         },
         "device_name": "STM32H753ZITx"
+    },
+    "ZEST_CORE_STM32H743ZG": {
+        "inherits": [
+            "MCU_STM32H743xI"
+        ],
+        "device_has_add": [
+            "EMAC",
+            "USBDEVICE"
+        ],
+        "overrides": {
+            "clock_source": "USE_PLL_HSE_XTAL",
+            "network-default-interface-type": "ETHERNET"
+        },
+        "device_name": "STM32H743ZGTx"
     }
 }
