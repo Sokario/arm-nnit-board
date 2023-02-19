@@ -3,8 +3,6 @@
 
 #include "computational.h"
 
-#include <array>
-
 namespace sixtron
 {
 
@@ -18,7 +16,7 @@ public:
     Convolution(void) : Computational<INPUT_WIDTH * INPUT_HEIGHT, KERNEL_WIDTH * KERNEL_HEIGHT, 1, OUTPUT_WIDTH * OUTPUT_HEIGHT>() {}
     ~Convolution(void) {}
 
-    array<int8_t, OUTPUT_WIDTH * OUTPUT_HEIGHT> forward(array<int8_t, INPUT_WIDTH * INPUT_HEIGHT> input) {
+    int8_t* forward(const int8_t* input) {
         for (unsigned int i = 0; i < OUTPUT_WIDTH * OUTPUT_HEIGHT; i++) {
             this->_output[i] = 0;
             for (unsigned int j = 0; j < KERNEL_WIDTH * KERNEL_HEIGHT; j++) {
@@ -27,10 +25,10 @@ public:
             this->_output[i] += this->_bias[0];
         }
 
-        return this->_output;
+        return this->_output.data();
     }
 
-    array<int8_t, OUTPUT_WIDTH * OUTPUT_HEIGHT> add_forward(array<int8_t, INPUT_WIDTH * INPUT_HEIGHT> input, array<int8_t, OUTPUT_WIDTH * OUTPUT_HEIGHT> previous) {
+    int8_t* add_forward(const int8_t* input, const int8_t* previous) {
         for (unsigned int i = 0; i < OUTPUT_WIDTH * OUTPUT_HEIGHT; i++) {
             this->_output[i] = previous[i];
             for (unsigned int j = 0; j < KERNEL_WIDTH * KERNEL_HEIGHT; j++) {
@@ -39,7 +37,7 @@ public:
             this->_output[i] += this->_bias[0];
         }
 
-        return this->_output;
+        return this->_output.data();
     }
 };
 

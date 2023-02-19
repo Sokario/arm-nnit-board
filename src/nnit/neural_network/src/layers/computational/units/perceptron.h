@@ -3,8 +3,6 @@
 
 #include "computational.h"
 
-#include <array>
-
 namespace sixtron
 {
 using namespace std;
@@ -19,7 +17,7 @@ public:
     Perceptron(void) : Computational<INPUT, INPUT, 1, 1>() {}
     ~Perceptron(void) {}
 
-    array<int8_t, 1> forward(array<int8_t, INPUT> input) {
+    int8_t* forward(const int8_t* input) {
         //STATIC_ASSERT(sizeof(*input) == sizeof(*_weight));
         assert(sizeof(this->_bias) == sizeof(int8_t));
         
@@ -29,7 +27,7 @@ public:
         }
         this->_output[0] += this->_bias[0];
 
-        return this->_output;
+        return this->_output.data();
     }
 
 private:

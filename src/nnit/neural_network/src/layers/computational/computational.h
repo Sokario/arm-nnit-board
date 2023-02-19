@@ -10,10 +10,14 @@ namespace sixtron
 using namespace std;
 
 template <int INPUT, int WEIGHT, int BIAS, int OUTPUT>
-class Computational: public Layer<INPUT, OUTPUT>
+class Computational: public Layer
 {
 public:
-    Computational(void) : Layer<INPUT, OUTPUT>() {}
+    Computational(void) : Layer(INPUT, OUTPUT) {
+        _weight.fill(0);
+        _bias.fill(0);
+        _output.fill(0);
+    }
     ~Computational(void) {}
 
     virtual void load_weight(array<int8_t, WEIGHT> weight) {
@@ -37,6 +41,8 @@ protected:
     // /!\ TO DO: to be added to the flash memory
     array<int8_t, WEIGHT> _weight;
     array<int8_t, BIAS> _bias;
+
+    array<int8_t, OUTPUT> _output; // /!\ Initialize _output for warning clearance
 };
 
 } // namespace sixtron

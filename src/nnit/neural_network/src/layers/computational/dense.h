@@ -57,12 +57,12 @@ public:
         return this->_bias;
     }
     
-    array<int8_t, OUTPUT> forward(array<int8_t, INPUT> input) {
+    int8_t* forward(const int8_t* input) {
         for (unsigned int i = 0; i < OUTPUT; i++) {
             this->_output[i] = _perceptrons[i].forward(input)[0];
         }
 
-        return this->_output;
+        return this->_output.data();
     }
 
 private:

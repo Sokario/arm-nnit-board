@@ -4,7 +4,6 @@
 #include "activation.h"
 
 #include <cmath>
-#include <array>
 
 namespace sixtron
 {
@@ -24,17 +23,17 @@ public:
         _factor = scale_factor;
     }
     
-    array<int8_t, INPUT> derivative(array<int8_t, INPUT> error) {
+    int8_t* derivative(const int8_t* error) {
         // /!\ To be sure on variable for check and return value
         for (int i = 0; i < INPUT; i++) {
             // /!\ 0 to be verified because of int8_t values
             this->_output[i] = error[i] * ((error[i] <= 0)? _factor : 1.0f);
         }
 
-        return this->_output;
+        return this->_output.data();
     }
 
-    array<int8_t, INPUT> forward(array<int8_t, INPUT> input) {
+    int8_t* forward(const int8_t* input) {
         if (_factor == 0.0f) {
             for (int i = 0; i < INPUT; i++) {
                 // /!\ 0 to be verified because of int8_t values
@@ -47,7 +46,7 @@ public:
             }
         }
 
-        return this->_output;
+        return this->_output.data();
     }
 
 private:

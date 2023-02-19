@@ -13,7 +13,7 @@ namespace sixtron
 #define OUTPUT_HEIGHT (((INPUT_HEIGHT - KERNEL_HEIGHT) / STRIDE_HEIGHT) + 1)
 
 template <int INPUT_WIDTH, int INPUT_HEIGHT, int CHANNEL, int KERNEL_WIDTH, int KERNEL_HEIGHT, int FILTER, int STRIDE_WIDTH, int STRIDE_HEIGHT>
-class Conv2D : Computational<INPUT_WIDTH * INPUT_HEIGHT * CHANNEL, KERNEL_WIDTH * KERNEL_HEIGHT * FILTER, FILTER, OUTPUT_WIDTH * OUTPUT_HEIGHT * FILTER>
+class Conv2D : public Computational<INPUT_WIDTH * INPUT_HEIGHT * CHANNEL, KERNEL_WIDTH * KERNEL_HEIGHT * FILTER, FILTER, OUTPUT_WIDTH * OUTPUT_HEIGHT * FILTER>
 {
 public:
     Conv2D() : Computational<INPUT_WIDTH * INPUT_HEIGHT * CHANNEL, KERNEL_WIDTH * KERNEL_HEIGHT * FILTER, FILTER, OUTPUT_WIDTH * OUTPUT_HEIGHT * FILTER>() {
@@ -60,15 +60,16 @@ public:
         return this->_bias;
     }
     
-    array<int8_t, OUTPUT_WIDTH * OUTPUT_HEIGHT * FILTER> forward(array<int8_t, INPUT_WIDTH * INPUT_HEIGHT * CHANNEL> input) {
+    int8_t* forward(const int8_t* input) {
         for (int i = 0; i < FILTER; i++) {
             array<int8_t, INPUT_WIDTH * INPUT_HEIGHT> channel;
-            array<int8_t, OUTPUT_WIDTH * OUTPUT_HEIGHT> output{};
+            int8_t value[OUTPUT_WIDTH * OUTPUT_HEIGHT] = {};
+            int8_t* output = value;
 
             for (int j = 0; j < INPUT_WIDTH * INPUT_HEIGHT * CHANNEL; j++) {
                 channel[j % (INPUT_WIDTH * INPUT_HEIGHT)] = input[j];
                 if (j % (INPUT_WIDTH * INPUT_HEIGHT) == INPUT_WIDTH * INPUT_HEIGHT - 1) {
-                    output = _convolutions[i].add_forward(channel, output);
+                    output = _convolutions[i].add_forward(channel.data(), output);
                 }
             }
 
@@ -78,7 +79,7 @@ public:
             }
         }
 
-        return this->_output;
+        return this->_output.data();
     }
 
 private:

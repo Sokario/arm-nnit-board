@@ -9,11 +9,10 @@ namespace sixtron
 {
 using namespace std;
 
-template <int INPUT, int OUTPUT>
 class Layer
 {
 public:
-    Layer(void) {}
+    Layer(int input_size, int output_size) : _input_size(input_size), _output_size(output_size) {}
     ~Layer(void) {}
 
     // Computational
@@ -23,13 +22,16 @@ public:
     //virtual array<int8_t, OUTPUT> get_bias(void) { return {}; }
 
     // Activation
-    virtual array<int8_t, OUTPUT> derivative(array<int8_t, INPUT> error) { return {}; }
+    virtual int8_t* derivative(const int8_t* error) { return {}; }
 
     // Commun
-    virtual array<int8_t, OUTPUT> forward(array<int8_t, INPUT> input) = 0;
+    int input_size(void) { return _input_size; }
+    int output_size(void) { return _output_size; }
+    virtual int8_t* forward(const int8_t* input) = 0;
 
 protected:
-    array<int8_t, OUTPUT> _output; // /!\ Initialize _output for warning clearance
+    int _input_size;
+    int _output_size;
 };
 
 } // namespace sixtron
