@@ -4,7 +4,6 @@
 #include "computational.h"
 #include "perceptron.h"
 
-#include <vector>
 #include <array>
 
 namespace sixtron
@@ -12,13 +11,13 @@ namespace sixtron
 using namespace std;
 
 template <int INPUT, int OUTPUT>
-class Dense: public Computational<INPUT, OUTPUT>
+class Dense: public Computational<INPUT, INPUT * OUTPUT, OUTPUT, OUTPUT>
 {
 public:
-    Dense(void) : Computational<INPUT, OUTPUT>() {
+    Dense(void) : Computational<INPUT, INPUT * OUTPUT, OUTPUT, OUTPUT>() {
         for (uint32_t i = 0; i < OUTPUT; i++) {
             Perceptron<INPUT> perceptron;
-            _perceptrons.push_back(perceptron);
+            _perceptrons[i] = perceptron;
         }
     }
     ~Dense(void) {}
@@ -34,7 +33,7 @@ public:
     }
 
     array<int8_t, INPUT * OUTPUT> get_weight(void) {
-        for (unsigned int i = 0; i < _perceptrons.size(); i++) {
+        for (unsigned int i = 0; i < OUTPUT; i++) {
             array<int8_t, INPUT> weight = _perceptrons[i].get_weight();
             for (unsigned int j = 0; j < INPUT; j++) {
                 this->_weight[i * INPUT + j] = weight[j];
@@ -45,13 +44,13 @@ public:
     }
 
     void load_bias(array<int8_t, OUTPUT> bias) {
-        for (unsigned int i = 0; i < _perceptrons.size(); i++) {
-            _perceptrons[i].load_bias(array<int8_t, 1> {bias[i]}); // /!\ Cast to be reworked
+        for (unsigned int i = 0; i < OUTPUT; i++) {
+            _perceptrons[i].load_bias(array<int8_t, 1> {bias[i]});
         }
     }
 
     array<int8_t, OUTPUT> get_bias(void) {
-        for (unsigned int i = 0; i < _perceptrons.size(); i++) {
+        for (unsigned int i = 0; i < OUTPUT; i++) {
             this->_bias[i] = _perceptrons[i].get_bias()[0];
         }
 
@@ -59,7 +58,7 @@ public:
     }
     
     array<int8_t, OUTPUT> forward(array<int8_t, INPUT> input) {
-        for (unsigned int i = 0; i < _perceptrons.size(); i++) {
+        for (unsigned int i = 0; i < OUTPUT; i++) {
             this->_output[i] = _perceptrons[i].forward(input)[0];
         }
 
@@ -67,7 +66,7 @@ public:
     }
 
 private:
-    std::vector<Perceptron<INPUT>> _perceptrons;
+    array<Perceptron<INPUT>, OUTPUT> _perceptrons;
 };
 
 } // namespace sixtron

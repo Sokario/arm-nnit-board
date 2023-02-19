@@ -10,10 +10,10 @@ namespace sixtron
 using namespace std;
 
 template <int INPUT>
-class Activation: public Layer<INPUT>
+class Activation: public Layer<INPUT, INPUT>
 {
 public:
-    Activation(void) : Layer<INPUT>() {}
+    Activation(void) : Layer<INPUT, INPUT>() {}
     ~Activation(void) {}
 
     virtual array<int8_t, INPUT> derivative(array<int8_t, INPUT> error) = 0;

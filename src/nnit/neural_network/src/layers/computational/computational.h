@@ -9,31 +9,34 @@ namespace sixtron
 {
 using namespace std;
 
-template <int INPUT, int OUTPUT>
-class Computational: public Layer<OUTPUT>
+template <int INPUT, int WEIGHT, int BIAS, int OUTPUT>
+class Computational: public Layer<INPUT, OUTPUT>
 {
 public:
-    Computational(void) : Layer<OUTPUT>() {}
+    Computational(void) : Layer<INPUT, OUTPUT>() {}
     ~Computational(void) {}
 
-    virtual void load_weight(array<int8_t, INPUT * OUTPUT> weight) {
-        for (unsigned int i = 0; i < INPUT * OUTPUT; i++) {
+    virtual void load_weight(array<int8_t, WEIGHT> weight) {
+        printf("LOADING WEIGHT: ");
+        for (int i = 0; i < WEIGHT; i++) {
             _weight[i] = weight[i];
+            printf("[%d]:[%d] ", weight[i], _weight[i]);
         }
+        printf("\n");
     }
+    virtual array<int8_t, WEIGHT> get_weight(void) { return _weight; }
 
-    virtual array<int8_t, INPUT * OUTPUT> get_weight(void) { return _weight; }
-    virtual void load_bias(array<int8_t, OUTPUT> bias) {
-        for (unsigned int i = 0; i < OUTPUT; i++) {
+    virtual void load_bias(array<int8_t, BIAS> bias) {
+        for (int i = 0; i < BIAS; i++) {
             _bias[i] = bias[i];
         }
     }
-    virtual array<int8_t, OUTPUT> get_bias(void) { return _bias; }
+    virtual array<int8_t, BIAS> get_bias(void) { return _bias; }
 
 protected:
     // /!\ TO DO: to be added to the flash memory
-    array<int8_t, INPUT * OUTPUT> _weight;
-    array<int8_t, OUTPUT> _bias;
+    array<int8_t, WEIGHT> _weight;
+    array<int8_t, BIAS> _bias;
 };
 
 } // namespace sixtron

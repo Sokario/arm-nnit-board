@@ -9,7 +9,7 @@ namespace sixtron
 {
 using namespace std;
 
-template <int OUTPUT>
+template <int INPUT, int OUTPUT>
 class Layer
 {
 public:
@@ -23,10 +23,10 @@ public:
     //virtual array<int8_t, OUTPUT> get_bias(void) { return {}; }
 
     // Activation
-    virtual array<int8_t, OUTPUT> derivative(array<int8_t, OUTPUT> error) { return {}; }
+    virtual array<int8_t, OUTPUT> derivative(array<int8_t, INPUT> error) { return {}; }
 
     // Commun
-    virtual array<int8_t, OUTPUT> forward(array<int8_t, OUTPUT> input) { return {}; }
+    virtual array<int8_t, OUTPUT> forward(array<int8_t, INPUT> input) = 0;
 
 protected:
     array<int8_t, OUTPUT> _output; // /!\ Initialize _output for warning clearance

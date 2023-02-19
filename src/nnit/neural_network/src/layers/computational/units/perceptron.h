@@ -13,10 +13,10 @@ using namespace std;
     typedef char assert_failed_condition [ (condition) ? 1 : -1 ];
 
 template <int INPUT>
-class Perceptron: public Computational<INPUT, 1>
+class Perceptron: public Computational<INPUT, INPUT, 1, 1>
 {
 public:
-    Perceptron(void) : Computational<INPUT, 1>() {}
+    Perceptron(void) : Computational<INPUT, INPUT, 1, 1>() {}
     ~Perceptron(void) {}
 
     array<int8_t, 1> forward(array<int8_t, INPUT> input) {
