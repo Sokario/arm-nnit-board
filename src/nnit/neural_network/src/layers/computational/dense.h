@@ -22,39 +22,39 @@ public:
     }
     ~Dense(void) {}
 
-    void load_weight(array<int8_t, INPUT * OUTPUT> weight) {
+    void load_weight(const int8_t* weight) {
         array<int8_t, INPUT> perceptron_weight;
         for (unsigned int i = 0; i < INPUT * OUTPUT; i++) {
             perceptron_weight[i % INPUT] = weight[i];
             if (i % INPUT == INPUT - 1) {
-                _perceptrons[int(i / INPUT)].load_weight(perceptron_weight);
+                _perceptrons[int(i / INPUT)].load_weight(perceptron_weight.data());
             }
         }
     }
 
-    array<int8_t, INPUT * OUTPUT> get_weight(void) {
+    int8_t* get_weight(void) {
         for (unsigned int i = 0; i < OUTPUT; i++) {
-            array<int8_t, INPUT> weight = _perceptrons[i].get_weight();
+            int8_t* weight = _perceptrons[i].get_weight();
             for (unsigned int j = 0; j < INPUT; j++) {
                 this->_weight[i * INPUT + j] = weight[j];
             }
         }
 
-        return this->_weight;
+        return this->_weight.data();
     }
 
-    void load_bias(array<int8_t, OUTPUT> bias) {
+    void load_bias(const int8_t* bias) {
         for (unsigned int i = 0; i < OUTPUT; i++) {
-            _perceptrons[i].load_bias(array<int8_t, 1> {bias[i]});
+            _perceptrons[i].load_bias(&bias[i]);
         }
     }
 
-    array<int8_t, OUTPUT> get_bias(void) {
+    int8_t* get_bias(void) {
         for (unsigned int i = 0; i < OUTPUT; i++) {
             this->_bias[i] = _perceptrons[i].get_bias()[0];
         }
 
-        return this->_bias;
+        return this->_bias.data();
     }
     
     int8_t* forward(const int8_t* input) {

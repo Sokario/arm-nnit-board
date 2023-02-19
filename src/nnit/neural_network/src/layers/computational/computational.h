@@ -20,7 +20,7 @@ public:
     }
     ~Computational(void) {}
 
-    virtual void load_weight(array<int8_t, WEIGHT> weight) {
+    virtual void load_weight(const int8_t* weight) {
         printf("LOADING WEIGHT: ");
         for (int i = 0; i < WEIGHT; i++) {
             _weight[i] = weight[i];
@@ -28,14 +28,14 @@ public:
         }
         printf("\n");
     }
-    virtual array<int8_t, WEIGHT> get_weight(void) { return _weight; }
+    virtual int8_t* get_weight(void) { return _weight.data(); }
 
-    virtual void load_bias(array<int8_t, BIAS> bias) {
+    virtual void load_bias(const int8_t* bias) {
         for (int i = 0; i < BIAS; i++) {
             _bias[i] = bias[i];
         }
     }
-    virtual array<int8_t, BIAS> get_bias(void) { return _bias; }
+    virtual int8_t* get_bias(void) { return _bias.data(); }
 
 protected:
     // /!\ TO DO: to be added to the flash memory

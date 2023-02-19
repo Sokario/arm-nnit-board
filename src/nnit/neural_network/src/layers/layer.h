@@ -16,10 +16,10 @@ public:
     ~Layer(void) {}
 
     // Computational
-    //virtual void load_weight(array<int8_t, OUTPUT> weight) { return; }
-    //virtual array<int8_t, OUTPUT> get_weight(void) { return {}; }
-    //virtual void load_bias(array<int8_t, OUTPUT> bias) { return; }
-    //virtual array<int8_t, OUTPUT> get_bias(void) { return {}; }
+    virtual void load_weight(const int8_t* weight) { return; }
+    virtual int8_t* get_weight(void) { return {}; }
+    virtual void load_bias(const int8_t* bias) { return; }
+    virtual int8_t* get_bias(void) { return {}; }
 
     // Activation
     virtual int8_t* derivative(const int8_t* error) { return {}; }

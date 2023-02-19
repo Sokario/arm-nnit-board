@@ -24,40 +24,40 @@ public:
     }
     ~Conv2D() {}
 
-    void load_weight(array<int8_t, KERNEL_WIDTH * KERNEL_HEIGHT * FILTER> weight) {
+    void load_weight(const int8_t* weight) {
         array<int8_t, KERNEL_WIDTH * KERNEL_HEIGHT> convolution_weight;
         
         for (int i = 0; i < KERNEL_WIDTH * KERNEL_HEIGHT * FILTER; i++) {
             convolution_weight[i % (KERNEL_WIDTH * KERNEL_HEIGHT)] = weight[i];
             if (i % (KERNEL_WIDTH * KERNEL_HEIGHT) == KERNEL_WIDTH * KERNEL_HEIGHT - 1) {
-                _convolutions[int(i / (KERNEL_WIDTH * KERNEL_HEIGHT))].load_weight(convolution_weight);
+                _convolutions[int(i / (KERNEL_WIDTH * KERNEL_HEIGHT))].load_weight(convolution_weight.data());
             }
         }
     }
 
-    array<int8_t, KERNEL_WIDTH * KERNEL_HEIGHT * FILTER> get_weight(void) {
+    int8_t* get_weight(void) {
         for (int i = 0; i < FILTER; i++) {
-            array<int8_t, KERNEL_WIDTH * KERNEL_HEIGHT> weight = _convolutions[i].get_weight();
+            int8_t* weight = _convolutions[i].get_weight();
             for (unsigned int j = 0; j < KERNEL_WIDTH * KERNEL_HEIGHT; j++) {
                 this->_weight[i * KERNEL_WIDTH * KERNEL_HEIGHT + j] = weight[j];
             }
         }
 
-        return this->_weight;
+        return this->_weight.data();
     }
 
-    void load_bias(array<int8_t, FILTER> bias) {
+    void load_bias(const int8_t* bias) {
         for (int i = 0; i < FILTER; i++) {
-            _convolutions[i].load_bias(array<int8_t, 1> {bias[i]});
+            _convolutions[i].load_bias(&bias[i]);
         }
     }
 
-    array<int8_t, FILTER> get_bias(void) {
+    int8_t* get_bias(void) {
         for (int i = 0; i < FILTER; i++) {
             this->_bias[i] = _convolutions[i].get_bias()[0];
         }
 
-        return this->_bias;
+        return this->_bias.data();
     }
     
     int8_t* forward(const int8_t* input) {
